@@ -12,6 +12,7 @@ import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
 import static play.libs.Json.toJson;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * The controller keeps all database operations behind the repository, and uses
@@ -46,6 +47,36 @@ public class PersonController extends Controller {
         return personRepository.list().thenApplyAsync(personStream -> {
             return ok(toJson(personStream.collect(Collectors.toList())));
         }, ec.current());
+    }
+    public CompletionStage<Result> addPersonJson() {
+        JsonNode requestJson = request().body().asJson();
+        String firstName = null;
+        Person person = new Person();
+        //if (requestJson.has("name")) {
+            firstName = requestJson.get("name").asText();
+            person.setName(firstName);
+            String message = "Added successfully person " + firstName;
+            return personRepository.add(person).thenApplyAsync(p -> {
+                return ok(message);
+            }, ec.current());
+            //return ok("Added");
+        //}
+        //return badRequest("Please provide your name!!!");
+    }
+    public CompletionStage<Result> deletePersonJson(String name) {
+        JsonNode requestJson = request().body().asJson();
+        String firstName = null;
+        Person person = new Person();
+        //if (requestJson.has("name")) {
+        firstName = requestJson.get("name").asText();
+        person = person.getName(firstName);
+        String message = "Added successfully person " + firstName;
+        return personRepository.add(person).thenApplyAsync(p -> {
+            return ok(message);
+        }, ec.current());
+        //return ok("Added");
+        //}
+        //return badRequest("Please provide your name!!!");
     }
 
 }
