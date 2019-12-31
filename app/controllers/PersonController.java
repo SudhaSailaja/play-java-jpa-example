@@ -25,6 +25,7 @@ public class PersonController extends Controller {
     private final PersonRepository personRepository;
     private final HttpExecutionContext ec;
 
+
     @Inject
     public PersonController(FormFactory formFactory, PersonRepository personRepository, HttpExecutionContext ec) {
         this.formFactory = formFactory;
@@ -37,8 +38,8 @@ public class PersonController extends Controller {
     }
 
     public CompletionStage<Result> addPerson() {
-        Person person = formFactory.form(Person.class).bindFromRequest().get();
-        return personRepository.add(person).thenApplyAsync(p -> {
+        Person person1 = formFactory.form(Person.class).bindFromRequest().get();
+        return personRepository.add(person1).thenApplyAsync(p -> {
             return redirect(routes.PersonController.index());
         }, ec.current());
     }
@@ -50,8 +51,8 @@ public class PersonController extends Controller {
     }
     public CompletionStage<Result> addPersonJson() {
         JsonNode requestJson = request().body().asJson();
-        String firstName = null;
         Person person = new Person();
+        String firstName = null;
         //if (requestJson.has("name")) {
             firstName = requestJson.get("name").asText();
             person.setName(firstName);
@@ -59,24 +60,12 @@ public class PersonController extends Controller {
             return personRepository.add(person).thenApplyAsync(p -> {
                 return ok(message);
             }, ec.current());
-            //return ok("Added");
-        //}
-        //return badRequest("Please provide your name!!!");
     }
-    public CompletionStage<Result> deletePersonJson(String name) {
-        JsonNode requestJson = request().body().asJson();
-        String firstName = null;
-        Person person = new Person();
-        //if (requestJson.has("name")) {
-        firstName = requestJson.get("name").asText();
-        person = person.getName(firstName);
-        String message = "Added successfully person " + firstName;
-        return personRepository.add(person).thenApplyAsync(p -> {
+    public CompletionStage<Result> delete(String uname){
+        String message = "Deleted successfully "+uname;
+        return personRepository.del(uname).thenApplyAsync(p -> {
             return ok(message);
-        }, ec.current());
-        //return ok("Added");
-        //}
-        //return badRequest("Please provide your name!!!");
+        },ec.current());
     }
 
 }
