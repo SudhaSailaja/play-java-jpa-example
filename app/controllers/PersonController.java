@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
+import play.libs.Json;
 import static play.libs.Json.toJson;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -51,14 +52,14 @@ public class PersonController extends Controller {
     }
     public CompletionStage<Result> addPersonJson() {
         JsonNode requestJson = request().body().asJson();
-        Person person = new Person();
+        Person person = Json.fromJson(requestJson,Person.class);
         String firstName = null;
         //if (requestJson.has("name")) {
             firstName = requestJson.get("name").asText();
             person.setName(firstName);
             String message = "Added successfully person " + firstName;
             return personRepository.add(person).thenApplyAsync(p -> {
-                return ok(message);
+                return ok("Added successfully "+Json.toJson(person.name));
             }, ec.current());
     }
     public CompletionStage<Result> delete(String uname){
