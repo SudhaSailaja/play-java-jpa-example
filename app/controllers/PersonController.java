@@ -55,7 +55,8 @@ public class PersonController extends Controller {
         Person person = Json.fromJson(requestJson,Person.class);
         String firstName = null;
         //if (requestJson.has("name")) {
-            firstName = requestJson.get("name").asText();
+            //firstName = requestJson.get("name").asText();
+            firstName = Json.toJson(person.name).asText();
             person.setName(firstName);
             String message = "Added successfully person " + firstName;
             return personRepository.add(person).thenApplyAsync(p -> {
