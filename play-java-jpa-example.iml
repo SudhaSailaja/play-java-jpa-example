@@ -17,7 +17,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build"/>
     </content>
     <orderEntry type="sourceFolder" forTests="false"/>
-    <orderEntry name="scala-sdk-2.12.6" type="library" level="project"/>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -1757,6 +1756,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry name="scala-sdk-2.12.6" type="library" level="project"/>
   </component>
   <component name="ModuleRootManager"/>
 </module>
