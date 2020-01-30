@@ -9,14 +9,24 @@ public class Person {
     @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long id;
 
-    public String name;
+    public String emailID;
 
-    public String getName() {
-        return name;
+    public String password;
+
+    public String getEmailID() {
+        return emailID;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmailID(String emailID) {
+        this.emailID = emailID;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {

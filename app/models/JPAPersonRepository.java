@@ -54,7 +54,7 @@ public class JPAPersonRepository implements PersonRepository {
     }
 
     private Person deletePerson(EntityManager em, String uname){
-        Person person = em.createQuery("select p from Person p where p.name=:uname",Person.class).setParameter("uname",uname).getSingleResult();
+        Person person = em.createQuery("select p from Person p where p.EmailID=:uname",Person.class).setParameter("uname",uname).getSingleResult();
         em.remove(person);
         return person;
     }

@@ -39,8 +39,8 @@ public class PersonController extends Controller {
     }
 
     public CompletionStage<Result> addPerson() {
-        Person person1 = formFactory.form(Person.class).bindFromRequest().get();
-        return personRepository.add(person1).thenApplyAsync(p -> {
+        Person person = formFactory.form(Person.class).bindFromRequest().get();
+        return personRepository.add(person).thenApplyAsync(p -> {
             return redirect(routes.PersonController.index());
         }, ec.current());
     }
@@ -53,14 +53,17 @@ public class PersonController extends Controller {
     public CompletionStage<Result> addPersonJson() {
         JsonNode requestJson = request().body().asJson();
         Person person = Json.fromJson(requestJson,Person.class);
-        String firstName = null;
+        //String EmailID = null;
+        //String password = null;
         //if (requestJson.has("name")) {
             //firstName = requestJson.get("name").asText();
-            firstName = Json.toJson(person.name).asText();
-            person.setName(firstName);
-            String message = "Added successfully person " + firstName;
+            //EmailID = Json.toJson(person.emailID).asText();
+            //password = Json.toJson(person.password).asText();
+            //person.setEmailID(EmailID);
+            //person.setPassword(password);
+            //String message = "Added successfully person " + EmailID;
             return personRepository.add(person).thenApplyAsync(p -> {
-                return ok("Added successfully "+Json.toJson(person.name));
+                return ok("Added successfully "+Json.toJson(person.emailID).asText());
             }, ec.current());
     }
     public CompletionStage<Result> delete(String uname){
